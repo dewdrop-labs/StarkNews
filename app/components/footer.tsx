@@ -23,25 +23,25 @@ const Footer = () => {
 
       <nav className="flex flex-col gap-2">
         <a
-          href="#"
+          href="/news"
           className="text-black px-4 hover:text-blue-400 transition-colors"
         >
           News
         </a>
         <a
-          href="#"
+          href="/learn"
           className="text-black px-4 hover:text-blue-400 transition-colors"
         >
           Learn
         </a>
         <a
-          href="#"
+          href="/prices"
           className="text-black px-4 hover:text-blue-400 transition-colors"
         >
           Prices
         </a>
         <a
-          href="#"
+          href="/videos"
           className="text-black px-4 hover:text-blue-400 transition-colors"
         >
           Videos
@@ -68,7 +68,7 @@ const Footer = () => {
           Team
         </a>
         <a
-          href="#"
+          href="/newsletter"
           className="text-black px-4 hover:text-blue-400 transition-colors"
         >
           Community

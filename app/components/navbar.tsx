@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ChevronDown, Globe } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 // Language context
 const LanguageContext = createContext({
@@ -21,8 +20,6 @@ export const LanguageProvider = ({ children }: {children: any}) => {
     setIsTranslating(true);
     
     try {
-      // Translation logic would go here
-      // For demonstration, adding a delay to simulate translation
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (error) {
       console.error('Translation error:', error);
@@ -105,52 +102,67 @@ const LanguageSelector = () => {
 };
 
 const Navbar = () => {
-    const [scrolled, setScrolled] = useState(false);
-  
-    useEffect(() => {
-      const handleScroll = () => {
-        const isScrolled = window.scrollY > 0;
-        setScrolled(isScrolled);
-      };
-  
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-  
-    return (
-      <header 
-        className={`
-          w-full 
-          fixed 
-          top-0 
-          z-50 
-          transition-all 
-          duration-300
-          ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/80 backdrop-blur-md'}
-          flex 
-          items-center 
-          justify-center 
-          gap-[15%]
-          py-4
-        `}
-      >
-        <div className="flex items-center px-6">
-          <h1 className="text-primary text-[20px] font-semibold">STARKNET</h1>
-          <h1 className="text-[#BCD5FF] text-[20px] font-semibold">NEWS</h1>
-        </div>
-       
-        <nav className="flex">
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">News</a>
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">Videos</a>
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">Events</a>
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">Hackathon</a>
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">Learn</a>
-          <a href="#" className="text-primary px-4 hover:text-blue-400 transition-colors">Newsletter</a>
-        </nav>
-  
-        <LanguageSelector />
-      </header>
-    );
-  };
-  
-  export default Navbar;
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: '/', label: 'News' },
+    { href: '/prices', label: 'Prices' },
+    { href: '/videos', label: 'Videos' },
+    { href: '/events', label: 'Events' },
+    { href: '/hackathons', label: 'Hackathon' },
+    { href: '/learn', label: 'Learn' },
+    { href: '/newsletter', label: 'Newsletter' }
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header 
+      className={`
+        w-full 
+        fixed 
+        top-0 
+        z-50 
+        transition-all 
+        duration-300
+        ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/80 backdrop-blur-md'}
+        flex 
+        items-center 
+        justify-center 
+        gap-[15%]
+        py-4
+      `}
+    >
+      <div className="flex items-center px-6">
+        <h1 className="text-primary text-[20px] font-semibold">STARKNET</h1>
+        <h1 className="text-[#BCD5FF] text-[20px] font-semibold">NEWS</h1>
+      </div>
+     
+      <nav className="flex">
+        {navLinks.map(({ href, label }) => (
+          <a
+            key={href}
+            href={href}
+            className={`text-primary px-4 hover:text-blue-400 transition-colors relative
+              ${pathname === href ? 'after:content-[""] after:absolute after:left-4 after:right-4 after:-bottom-2 after:h-0.5 after:bg-primary' : ''}`}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <LanguageSelector />
+    </header>
+  );
+};
+
+export default Navbar;
