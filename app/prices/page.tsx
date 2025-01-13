@@ -79,7 +79,7 @@ async function fetchStarknetData(): Promise<any> {
   const response = await fetch('https://api.coingecko.com/api/v3/coins/starknet', {
     headers: {
       'Content-Type': 'application/json',
-      'x-cg-demo-api-key': 'CG-nLtGFDTJjGw7xhTgawDw7nXL'
+      'x-cg-demo-api-key': `${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`,
     },
   });
   if (!response.ok) {
