@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import Image from "next/image";
@@ -16,7 +18,7 @@ interface Protocol {
   change_1d: number;
   change_7d: number;
   chainTvls: {
-    starknet: number;
+    Starknet: number;
   };
   chains: string[];
   logo: string;
@@ -72,6 +74,7 @@ async function fetchStarknetProtocols(): Promise<Protocol[]> {
   );
 }
 
+
 async function fetchStarknetData(): Promise<any> {
   const response = await fetch('https://api.coingecko.com/api/v3/coins/starknet', {
     headers: {
@@ -120,7 +123,7 @@ const Prices = () => {
         ]);
 
         const sortedByTVL = [...protocolsData].sort((a, b) => 
-          (b.chainTvls?.starknet || 0) - (a.chainTvls?.starknet || 0)
+          (b.chainTvls?.Starknet || 0) - (a.chainTvls?.Starknet || 0)
         );
 
         setMetrics({
@@ -128,7 +131,7 @@ const Prices = () => {
           protocols: protocolsData.length,
           topProtocol: {
             name: sortedByTVL[0]?.name || '',
-            tvl: sortedByTVL[0]?.chainTvls?.starknet || 0
+            tvl: sortedByTVL[0]?.chainTvls?.Starknet || 0
           }
         });
 
